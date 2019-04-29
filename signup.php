@@ -51,7 +51,16 @@ mysqli_close($dbc);
 ?>
 
 <p>Enter,please your username and password
-&quot;Mismatc&quot;\.</p>
+&quot;Mismatch&quot;.</p>
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 <fieldset> <legend>Enter date</legend>
-	<label for="username
+	<label for="username">Username:</label>
+	<input type="text" id="username" name="username" value="<?php if (!empty($username)) echo
+	$username;?>" /><br />
+	<label for="password1">Password:</label>
+	<input type="password" id="password1" name="password1" /><br />
+	<label for="password2">Repeat password</label>
+	<input type="password" id="password2" name="password2" /><br />
+</fieldset>
+<input type="submit" value="Create" name"submit" />
+</form>
