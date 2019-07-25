@@ -11,7 +11,11 @@ $query2 = "SELECT name, category FROM mismatch_topic WHERE topic_id '" . $row['t
 $data2 = mysqli_query($dbc, $query2) ;
 if (mysqli_num_rows($data2) == 1) {
 	$row2 = mysqli_fetch_array($data2) ;
-	$row
+	$row = ['topic_name'] = $row2['name'];
+	$row = ['category_name'] = $row2 ['category'];
+	array_push($responses, $row);
+}
+}
 
 
 
