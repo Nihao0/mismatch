@@ -18,6 +18,31 @@ if (mysqli_num_rows($data2) == 1) {
 }
 
 
+foreach ($responses as $response) {
+
+if ($response['response'] == 1) {
+	echo '<input type="radio" name="' . $response['response_id'] .
+	'"value = 1 checked="checked" />Addiction ';
+}
+else {
+	echo '<input type = "radio" name"' . $response['response_id'] . 
+	'" value = 1 />Addiction';
+}
+}
+foreach ($responses as $response) {
+
+if ($response['response'] == 2) {
+	echo '<input type="radio" name="' . $response['response_id'] .
+	'"value = 2 checked="checked" />Disgust ';
+}
+else {
+	echo '<input type = "radio" name"' . $response['response_id'] . 
+	'" value = 2 />Disgust';
+}
+}
+
+
+
 
 
 
