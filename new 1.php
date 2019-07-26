@@ -1,49 +1,25 @@
-<?php
-
-$query = "SELECT response_id, topic_id, response FROM mismatch_response " .
-			"WHERE user_id = '" . $_SESSION['user_id'] . "'";
-$data = mysqli_query($dbc, $query);
-$responses = array ();
-while ($row = mysqli_fetch_array($data)) {
-	//Извлечение наименования признаков несоответствия и принадлежности их к категориям
-	//из таблицы mismatch_topic
-$query2 = "SELECT name, category FROM mismatch_topic WHERE topic_id '" . $row['topic_id'] . "'";
-$data2 = mysqli_query($dbc, $query2) ;
-if (mysqli_num_rows($data2) == 1) {
-	$row2 = mysqli_fetch_array($data2) ;
-	$row = ['topic_name'] = $row2['name'];
-	$row = ['category_name'] = $row2 ['category'];
-	array_push($responses, $row);
+<?php 
+  require_once('startsession.php');
+  
+  
+  $page_title='Questionnaire!';
+  require_once('header.php');
+  
+  
+  require_once('appvars.php');
+  require_once('connectvars.php');
+  
+//
+if (!isset($_SESSION['user_id'])) {
+	echo '<p class="login">Please, <a href="login.php">enter in app </a>' .
+	'to access this page.</p>';
+exit();
 }
-}
+//
+require_once('navmenu.php');
 
-
-foreach ($responses as $response) {
-
-if ($response['response'] == 1) {
-	echo '<input type="radio" name="' . $response['response_id'] .
-	'"value = 1 checked="checked" />Addiction ';
-}
-else {
-	echo '<input type = "radio" name"' . $response['response_id'] . 
-	'" value = 1 />Addiction';
-}
-}
-foreach ($responses as $response) {
-
-if ($response['response'] == 2) {
-	echo '<input type="radio" name="' . $response['response_id'] .
-	'"value = 2 checked="checked" />Disgust ';
-}
-else {
-	echo '<input type = "radio" name"' . $response['response_id'] . 
-	'" value = 2 />Disgust';
-}
-}
-
-
-
-
+//
+$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 
 //Если этот пользователь ни разу не вводил данные в анкету 
@@ -79,3 +55,25 @@ if (mysqli_num_rows($data) == 0) {
 		}
 		echo '<p>Your suggestions saved</p>';
 	}
+	
+$query = "SELECT response_id, topic_id, response FROM mismatch_response " .
+			"WHERE user_id = '" . $_SESSION['user_id'] . "'";
+$data = mysqli_query($dbc, $query);
+$responses = array ();
+while ($row = mysqli_fetch_array($data)) {
+	//Извлечение наименования признаков несоответствия и принадлежности их к категориям
+	//из таблицы mismatch_topic
+$query2 = "SELECT name, category FROM mismatch_topic WHERE topic_id '" . $row['topic_id'] . "'";
+$data2 = mysqli_query($dbc, $query2) ;
+if (mysqli_num_rows($data2) == 1) {
+	$row2 = mysqli_fetch_array($data2) ;
+	$row = ['topic_name'] = $row2['name'];
+	$row = ['category_name'] = $row2 ['category'];
+	array_push($responses, $row);
+}
+}
+mysqli_close($dbc);
+
+//Создание формы Анкета путем прохождения в цикле массива с данными признаков соответствия 
+echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '">';
+echo '<p> What do you feel about each of these signs? </p>';
